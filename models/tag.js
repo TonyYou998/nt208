@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
   Tag.init({
     name: {
       type: DataTypes.STRING,
-      allowNull:falsem
+      allowNull:false
     },
     description: DataTypes.STRING
   }, {
