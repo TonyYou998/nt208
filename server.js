@@ -9,7 +9,7 @@ app.use(express.json());
 app.use("/public",express.static(publicPathDirectory));
 app.use((req,res,next)=>{
         res.setHeader('Access-Control-Allow-Origin','*');
-        res.setHeader('Access-Control-Allow-Methods','POST');
+        res.setHeader('Access-Control-Allow-Methods','POST,PUT,GET,DELETE');
         res.setHeader('Access-Control-Allow-Headers','*');
         next();
     })

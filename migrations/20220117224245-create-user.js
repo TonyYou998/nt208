@@ -36,12 +36,13 @@ module.exports = {
       },
       avartar:{
         type:Sequelize.STRING,
-        allowNull:false,
+        // allowNull:false,
         
       },
       role:{
         type:Sequelize.STRING,
         allowNull:false,
+        defaultValue:'Client',
         
       },
       createdAt: {

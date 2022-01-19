@@ -44,13 +44,14 @@ module.exports = (sequelize, DataTypes) => {
       allowNull:false,
       defaultValue:false,
     },
-    avatar:{
+    avartar:{
       type:DataTypes.STRING,
-      allowNull:false,
+      // allowNull:false,
     },
     role:{
       type:DataTypes.STRING,
       allowNull:false,
+      defaultValue:"Client"
     },
 
   }, {
