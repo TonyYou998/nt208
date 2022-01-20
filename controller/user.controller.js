@@ -5,8 +5,9 @@ const gravatar = require("gravatar-url");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const register = async (req, res) => {
-  const { firstName, lastName, email, password } = req.body;
+ 
   try {
+    const { firstName, lastName, email, password } = req.body;
     const salt = bcrypt.genSaltSync(10);
     const hashPassword = bcrypt.hashSync(password, salt);
     const avatarUrl = gravatar(email);
@@ -64,38 +65,43 @@ const sendEmail= async(email,url)=>{
 }
 
 const login = async (req, res) => {
-  const { email, password } = req.body;
-  const user = await User.findOne({
-    where: {
-      email,
-    },
-  });
-  if (user) {
-    const isAuth = bcrypt.compareSync(password, user.password);
-
-    if (isAuth) {
-      const token = jwt.sign(
-        {
-          email: user.email,
-          role: user.role,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          emailVerified: user.emailVerified,
-          isOtp: user.isOtp,
-          avartar: user.avartar,
-        },
-        "tanvuu998",
-        {
-          expiresIn: 60 * 60,
-        }
-      );
-      res.status(200).send({ token });
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({
+      where: {
+        email,
+      },
+    });
+    if (user) {
+      const isAuth = bcrypt.compareSync(password, user.password);
+  
+      if (isAuth) {
+        const token = jwt.sign(
+          {
+            email: user.email,
+            role: user.role,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            emailVerified: user.emailVerified,
+            isOtp: user.isOtp,
+            avartar: user.avartar,
+          },
+          "tanvuu998",
+          {
+            expiresIn: 60 * 60,
+          }
+        );
+        res.status(200).send({ token });
+      } else {
+        res.status(500).send("wrong pass");
+      }
     } else {
-      res.status(500).send("wrong pass");
-    }
-  } else {
-    res.status(500).send("email is invalid");
+      res.status(500).send("cannot login");
+    }   
+  } catch (error) {
+    res.status(500).send("cannot login");
   }
+ 
 };
 const activateAccount=async (req,res)=>{
     const token=req.params.token;
