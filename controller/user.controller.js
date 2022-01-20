@@ -7,7 +7,9 @@ const nodemailer = require("nodemailer");
 const register = async (req, res) => {
  
   try {
-    const { firstName, lastName, email, password } = req.body;
+    
+    const { firstName, email,lastName, password } = req.body;
+    
     const salt = bcrypt.genSaltSync(10);
     const hashPassword = bcrypt.hashSync(password, salt);
     const avatarUrl = gravatar(email);
@@ -28,6 +30,7 @@ const register = async (req, res) => {
   }
 };
 const createVerifyUrl=(email)=>{
+  console.log("create");
   const emailToken = jwt.sign(
     {
       email,
@@ -41,6 +44,7 @@ const createVerifyUrl=(email)=>{
   return url;
 }
 const sendEmail= async(email,url)=>{
+  console.log("send");
   let testAccount = await nodemailer.createTestAccount();
   let transporter = nodemailer.createTransport({
     host: "smtp.outlook.com",
