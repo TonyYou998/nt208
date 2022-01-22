@@ -1,5 +1,5 @@
 const checkEmptyRegister = (req, res, next) => {
-  const { email, password, firstName, lastName } = req.body;
+
   if (Object.keys(req.body).length !== 4)
     res.status(500).send("all field must be filled");
     else
