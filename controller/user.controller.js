@@ -5,11 +5,9 @@ const gravatar = require("gravatar-url");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const register = async (req, res) => {
- 
   try {
-    
-    const { firstName, email,lastName, password } = req.body;
-    
+    const { firstName, email, lastName, password } = req.body;
+
     const salt = bcrypt.genSaltSync(10);
     const hashPassword = bcrypt.hashSync(password, salt);
     const avatarUrl = gravatar(email);
@@ -21,15 +19,15 @@ const register = async (req, res) => {
       password: hashPassword,
       avartar: avatarUrl,
     });
-   
-    const url= createVerifyUrl(email);
-    sendEmail(email,url);
+
+    const url = createVerifyUrl(email);
+    sendEmail(email, url);
     res.status(201).send(newUser);
   } catch (error) {
     res.status(500).send(error);
   }
 };
-const createVerifyUrl=(email)=>{
+const createVerifyUrl = (email) => {
   console.log("create");
   const emailToken = jwt.sign(
     {
@@ -40,10 +38,10 @@ const createVerifyUrl=(email)=>{
       expiresIn: 60 * 5,
     }
   );
-  const url=`http://localhost:3000/api/v1/user/confirmation/${emailToken}`;
+  const url = `http://localhost:3000/api/v1/user/confirmation/${emailToken}`;
   return url;
-}
-const sendEmail= async(email,url)=>{
+};
+const sendEmail = async (email, url) => {
   console.log("send");
   let testAccount = await nodemailer.createTestAccount();
   let transporter = nodemailer.createTransport({
@@ -52,7 +50,7 @@ const sendEmail= async(email,url)=>{
     secure: false, // true for 465, false for other ports
     auth: {
       user: "tinpetofficial@outlook.com", // generated ethereal user
-      pass:"39272762Bell", // generated ethereal password
+      pass: "39272762Bell", // generated ethereal password
     },
   });
   // console.log(url);
@@ -66,7 +64,7 @@ const sendEmail= async(email,url)=>{
 
   console.log("Message sent: %s", info.messageId);
   console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-}
+};
 
 const login = async (req, res) => {
   try {
@@ -78,7 +76,7 @@ const login = async (req, res) => {
     });
     if (user) {
       const isAuth = bcrypt.compareSync(password, user.password);
-  
+
       if (isAuth) {
         const token = jwt.sign(
           {
@@ -100,44 +98,38 @@ const login = async (req, res) => {
         res.status(500).send("wrong pass");
       }
     } else {
-      res.status(500).send("cannot login");
-    }   
-  } catch (error) {
-    res.status(500).send("cannot login");
-  }
- 
-};
-const activateAccount=async (req,res)=>{
-    const token=req.params.token;
-    try {
-      const decode=jwt.verify(token,"tanvuu998");
-      console.log(decode.email);
-      
-      const user=await User.update({emailVerified:true},{
-        where:{
-          email:decode.email,
-        }
-  
-      });
-      if(user){
-        res.status(200).send({message:"Active success"});
-      }
-      else{
-        res.status(500).send("activate faied");
-      }   
-    } catch (error) {
-      res.status(500).send({message:"Your token has been expired"});
+      res.status(500).send("User không tồn tại");
     }
-   
+  } catch (error) {
+    res.status(500).send("User không tồn tại");
+  }
+};
+const activateAccount = async (req, res) => {
+  const token = req.params.token;
+  try {
+    const decode = jwt.verify(token, "tanvuu998");
+    console.log(decode.email);
 
-    
-   
-
-
-}
+    const user = await User.update(
+      { emailVerified: true },
+      {
+        where: {
+          email: decode.email,
+        },
+      }
+    );
+    if (user) {
+      res.status(200).send({ message: "Active success" });
+    } else {
+      res.status(500).send("activate faied");
+    }
+  } catch (error) {
+    res.status(500).send({ message: "Your token has been expired" });
+  }
+};
 
 module.exports = {
   register,
   login,
-  activateAccount
+  activateAccount,
 };
