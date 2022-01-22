@@ -1,5 +1,6 @@
 const {User}=require('../../models');
 const checkExistEmail=async (req,res,next)=>{
+
     const {email}=req.body;
     const user=await User.findOne({
         where:{
