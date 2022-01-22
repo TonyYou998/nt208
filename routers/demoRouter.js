@@ -1,6 +1,6 @@
-const express=require('express');
-const demoRouter=express.Router();
-const {demoController}=require('../controller/demo.controller');
+const express = require("express");
+const demoRouter = express.Router();
+const { demoController } = require("../controller/demo.controller");
 /**
  * @swagger
  * /api/v1/demo:
@@ -9,9 +9,9 @@ const {demoController}=require('../controller/demo.controller');
  *     responses:
  *       200:
  *         description: Success
- * 
+ *
  */
-demoRouter.get("/",demoController);
-module.exports={
-    demoRouter,
-}
+demoRouter.get("/", demoController);
+module.exports = {
+  demoRouter,
+};
