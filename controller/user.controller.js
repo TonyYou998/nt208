@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const register = async (req, res) => {
   try {
-    const { firstName, email, lastName, password } = req.body;
+    const { firstName, email, username, lastName, password } = req.body;
 
     const salt = bcrypt.genSaltSync(10);
     const hashPassword = bcrypt.hashSync(password, salt);
@@ -16,15 +16,16 @@ const register = async (req, res) => {
       firstName,
       lastName,
       email,
+      username,
       password: hashPassword,
       avartar: avatarUrl,
     });
 
     const url = createVerifyUrl(email);
     sendEmail(email, url);
-    res.status(201).send(newUser);
+    res.status(201).send({ newUser, mess: "Thành công" });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).send({ error, mess: "Thất bại" });
   }
 };
 const createVerifyUrl = (email) => {
@@ -84,24 +85,25 @@ const login = async (req, res) => {
             role: user.role,
             firstName: user.firstName,
             lastName: user.lastName,
+            username: user.username,
             emailVerified: user.emailVerified,
             isOtp: user.isOtp,
             avartar: user.avartar,
           },
           "tanvuu998",
           {
-            expiresIn: 60 * 60,
+            expiresIn: 60000000000 * 60000000000,
           }
         );
-        res.status(200).send({ token });
+        res.status(200).send({ token, mess: "Thành công" });
       } else {
-        res.status(500).send("wrong pass");
+        res.status(500).send({ mess: "wrong pass" });
       }
     } else {
-      res.status(500).send("User không tồn tại");
+      res.status(500).send({ mess: "User không tồn tại" });
     }
   } catch (error) {
-    res.status(500).send("User không tồn tại");
+    res.status(500).send({ mess: "User không tồn tại" });
   }
 };
 const activateAccount = async (req, res) => {
