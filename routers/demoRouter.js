@@ -1,6 +1,8 @@
 const express = require("express");
 const demoRouter = express.Router();
 const { demoController } = require("../controller/demo.controller");
+const {authenticate}=require("../middlewares/auth/authenticate");
+const { authorize } = require("../middlewares/auth/authorize");
 /**
  * @swagger
  * /api/v1/demo:
@@ -11,7 +13,7 @@ const { demoController } = require("../controller/demo.controller");
  *         description: Success
  *
  */
-demoRouter.get("/", demoController);
+demoRouter.get("/",authenticate,authorize(["Client"]),demoController);
 module.exports = {
   demoRouter,
 };

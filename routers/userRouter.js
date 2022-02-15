@@ -1,5 +1,6 @@
 const express=require('express');
 const { register, login, activateAccount } = require('../controller/user.controller');
+const { authorize } = require('../middlewares/auth/authorize');
 const { checkEmptyRegister, checkEmptyLogin } = require('../middlewares/validations/checkEmpty');
 const { checkExistEmail } = require('../middlewares/validations/checkExist');
 const userRouter=express.Router();
