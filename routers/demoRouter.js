@@ -13,7 +13,7 @@ const { authorize } = require("../middlewares/auth/authorize");
  *         description: Success
  *
  */
-demoRouter.get("/",authenticate,authorize(["Client"]),demoController);
+demoRouter.get("/",demoController);
 module.exports = {
   demoRouter,
 };

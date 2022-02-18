@@ -18,5 +18,13 @@ const addTag= async(req,res)=>{
     }
 
 }
+const getAllTag=async (req,res)=>{
+    const tags=await Tag.findAll();
+    if(tags)
+        res.status(200).send(tags);
+    else    
+        res.status(400).send({message:"tag is empty"});
 
-module.exports={addTag,}
+}
+
+module.exports={addTag,getAllTag}

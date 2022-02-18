@@ -2,9 +2,6 @@ const {Category}=require("../models");
 const category = require("../models/category");
 const addCategory=async (req,res)=>{
     const {name,image,description}=req.body;
-
-   
-
     const newCategory=await Category.create({
         name,
         image,
@@ -17,12 +14,17 @@ const addCategory=async (req,res)=>{
         })
     else
         res.status(500).send({message:"create failed"})
-
-
-
-    
-
 }
 
+const getAllCategory=async (req,res)=>{
+    const categories=await Category.findAll();
 
-module.exports={addCategory,}
+    if(categories)
+        res.status(200).send(categories);
+    else
+        res.status(500).send({message:"category is empty"});
+
+}
+module.exports={addCategory,
+    getAllCategory,
+}

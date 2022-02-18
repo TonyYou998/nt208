@@ -90,7 +90,7 @@ const login = async (req, res) => {
           },
           "tanvuu998",
           {
-            expiresIn: 60 * 60,
+            expiresIn: 3600*365,
           }
         );
         res.status(200).send({ token });
