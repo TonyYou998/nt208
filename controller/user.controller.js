@@ -41,7 +41,7 @@ const createVerifyUrl = (email) => {
       expiresIn: 60 * 5,
     }
   );
-  const url = `http://localhost:3000/api/v1/user/confirmation/${emailToken}`;
+  const url = `https://nt118.herokuapp.com/api/v1/user/confirmation/${emailToken}`;
   return url;
 };
 const sendEmail = async (email, url) => {
