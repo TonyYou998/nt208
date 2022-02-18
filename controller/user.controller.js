@@ -11,19 +11,22 @@ const register = async (req, res) => {
     const salt = bcrypt.genSaltSync(10);
     const hashPassword = bcrypt.hashSync(password, salt);
     const avatarUrl = gravatar(email);
-
-    const newUser = await User.create({
-      firstName,
-      lastName,
-      email,
-      password: hashPassword,
-      avartar: avatarUrl,
-    });
-
+    
+      const newUser = await User.create({
+        firstName,
+        lastName,
+        email,
+        password: hashPassword,
+        avartar: avatarUrl,
+      });
+  
+   
+   
     const url = createVerifyUrl(email);
     sendEmail(email, url);
     res.status(201).send(newUser);
   } catch (error) {
+    console.log(error);
     res.status(500).send(error);
   }
 };
