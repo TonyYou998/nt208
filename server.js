@@ -31,8 +31,13 @@ app.use((req, res, next) => {
 app.use("/swagger", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 app.use("/api/v1", rootRouter);
+let port= process.env.PORT;
+if(port==null||port==""){
+  port=3000;
 
-app.listen(3000, async () => {
+
+}
+app.listen(port, async () => {
   console.log("server is running on port 3000");
 
   try {
