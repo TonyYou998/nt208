@@ -64,7 +64,7 @@ const addProduct=async (req,res)=>{
 const getAllProducts=async (req,res)=>{
 
     const products=await Product.findAll({
-        attributes:['id','name','image',,'imageSau','idTypes','categoryId'],
+        attributes:['id','name','image','imageSau','idTypes','categoryId'],
     });
     if(products)
         res.status(200).send(products);
