@@ -18,14 +18,7 @@ const authenticate=(req,res,next)=>{
     }
   
 
-    if (decode) {
-      req.user = decode;
-      next();
-    } else {
-      res.status(401).send({
-        message: "not login",
-      });
-    }
+   
   } ;
 module.exports = {
   authenticate,
