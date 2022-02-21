@@ -88,7 +88,7 @@ const getDetailProductById=async (req,res)=>{
         
     } catch (error) {
         console.log(error);
-        res.status(404).send(error);
+        res.status(404).send({message:"product not found"});
     }
 
 }
