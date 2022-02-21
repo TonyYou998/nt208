@@ -88,7 +88,7 @@ const getDetailProductById=async (req,res)=>{
         else
         res.status(500).send({message:"item is not exist"});
     } catch (error) {
-        console.log(err);
+        console.log(error);
         
     }
 
