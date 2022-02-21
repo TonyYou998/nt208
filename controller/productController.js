@@ -85,11 +85,10 @@ const getDetailProductById=async (req,res)=>{
         product.save();
         if(product)
             res.status(200).send(product);
-        else
-        res.status(500).send({message:"item is not exist"});
+        
     } catch (error) {
         console.log(error);
-        
+        res.status(404).send(error);
     }
 
 }
