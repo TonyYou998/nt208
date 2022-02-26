@@ -13,13 +13,16 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       this.hasMany(Comment,{
         foreignKey:"idProduct",
+        
       });
       this.belongsTo(Category,{
         foreignKey:"categoryId",
+        as:"category",
         
       });
       this.belongsTo(Tag,{
         foreignKey:"idTypes",
+        as:"tag",
       })
     }
   }

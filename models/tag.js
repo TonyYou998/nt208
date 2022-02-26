@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       this.hasMany(Product,{
         foreignKey:"idTypes",
+        as:"tag",
       })
     }
   }
