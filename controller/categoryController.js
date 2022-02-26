@@ -8,7 +8,7 @@ const addCategory=async (req,res)=>{
         description,
         
     })
-    if(category)
+    if(newCategory)
         res.status(201).send({
             message:"create success",
         })
