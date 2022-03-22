@@ -13,7 +13,7 @@
 npx sequelize model:generate --name ten --attributes tenAtt:kieu
 npx sequelize model:generate --name sltruycap --attributes idProfile:interger,sl:interger,user:VarChar
 
-npx sequelize model:generate --name createcard --attributes dataMT:text, dataMS:txt
+npx sequelize-cli model:generate --name Ordercreatecard --attributes idCard:int,name:string,address:string
 
 => 1.tạo dbs bằng docker hoặc mysql workbench
     2.dùng lệnh npx sequelize db:migrate để ánh xạ các model thành table trong csdl.

@@ -1,8 +1,5 @@
 const { createcard } = require("../models");
 
-const req = require("express/lib/request");
-const res = require("express/lib/response");
-
 const postCard = async (req, res) => {
   try {
     const { dataMT, dataMS, status, name } = req.body;
@@ -34,6 +31,31 @@ const getCardMyList = async (req, res) => {
     res.status(500).send({ error, mess: "Thất bại" });
   }
 };
+const putCard = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const card = await createcard.findOne({
+      where: {
+        id,
+      },
+    });
+    if (req.user.id === card.idUser) {
+      const { dataMT, dataMS, status, name } = req.body;
+
+      if (card) {
+        card.dataMT = dataMT;
+        card.dataMS = dataMS;
+        card.status = status;
+        card.name = name;
+        await card.save();
+        res.status(200).send({ card, mess: "Thành công" });
+      } else res.status(404).send({ mess: "Thất bại" });
+    } else res.status(404).send({ mess: "Không có quyền truy cập" });
+  } catch (error) {
+    res.status(500).send({ error, mess: "Thất bại" });
+  }
+};
+
 const getCardMyId = async (req, res) => {
   try {
     const { id } = req.params;
@@ -50,7 +72,11 @@ const getCardMyId = async (req, res) => {
   }
 };
 const getcard = async (req, res) => {
-  const data = await createcard.findAll({});
+  const data = await createcard.findAll({
+    where: {
+      status: 1,
+    },
+  });
   if (data) res.status(200).send({ data, mess: "Thành công" });
 };
 const getcardId = async (req, res) => {
@@ -68,4 +94,5 @@ module.exports = {
   getCardMyId,
   getcard,
   getcardId,
+  putCard,
 };

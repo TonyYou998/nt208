@@ -7,6 +7,7 @@ const { tagRouter } = require("./tagRouter");
 const { profileRouter } = require("./profileRouter");
 const { userRouter } = require("./userRouter");
 const { createcardRouter } = require("./createcard");
+const { createOrderCreateCardRouter } = require("./orderCreaCard");
 const rootRouter = express.Router();
 
 rootRouter.use("/demo", demoRouter);
@@ -16,6 +17,7 @@ rootRouter.use("/tag", tagRouter);
 rootRouter.use("/product", productRouter);
 rootRouter.use("/profile", profileRouter);
 rootRouter.use("/createcard", createcardRouter);
+rootRouter.use("/ordercreateCard", createOrderCreateCardRouter);
 
 module.exports = {
   rootRouter,
