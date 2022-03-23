@@ -6,6 +6,7 @@ const { productRouter } = require('./productRouter');
 const { tagRouter } = require('./tagRouter');
 const { profileRouter } = require('./profileRouter');
 const { userRouter } = require('./userRouter');
+const { imageRouter } = require('./imageRouter');
 const rootRouter=express.Router();
 
 
@@ -15,7 +16,7 @@ rootRouter.use("/category",categoryRouter);
 rootRouter.use("/tag",tagRouter);
 rootRouter.use("/product",productRouter);
 rootRouter.use("/profile", profileRouter);
-
+rootRouter.use("/image",imageRouter);
 
 module.exports={
     rootRouter,
