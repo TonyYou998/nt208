@@ -76,7 +76,9 @@ const login = async (req, res) => {
       where: {
         email,
       },
+     
     });
+
     if (user) {
       const isAuth = bcrypt.compareSync(password, user.password);
 
@@ -98,7 +100,7 @@ const login = async (req, res) => {
             expiresIn: 60000000000 * 60000000000,
           }
         );
-        res.status(200).send({ token, mess: "Thành công" });
+        res.status(200).send({ token, mess: "Thành công",firstName:user.firstName,lastName:user.lastName });
       } else {
         res.status(500).send({ mess: "wrong pass" });
       }
