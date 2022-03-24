@@ -49,7 +49,7 @@ const addProduct = async (req, res) => {
 };
 const getAllProducts = async (req, res) => {
   const products = await Product.findAll({
-    attributes:['id','name','price','image','imageSau','description','rating'],
+    attributes:['id','name','price','image','imageSau','description','rate'],
     include: [
       {
         model: Tag,
