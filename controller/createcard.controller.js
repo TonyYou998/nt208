@@ -1,8 +1,13 @@
 const { createcard } = require("../models");
+const { LikeCard } = require("../models");
+const { CommentCard } = require("../models");
+const { User } = require("../models");
+const URL = "http://192.168.2.186:3000/";
 
 const postCard = async (req, res) => {
   try {
     const { dataMT, dataMS, status, name } = req.body;
+
     const idUser = req.user.id;
     const card = await createcard.create({
       idUser,
@@ -71,12 +76,145 @@ const getCardMyId = async (req, res) => {
     res.status(500).send({ error, mess: "Thất bại" });
   }
 };
+const getCardIdCheckLike = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = req.user.id;
+
+    const data = await LikeCard.findOne({
+      where: {
+        idUserLike: user,
+        idCardLike: id,
+      },
+    });
+
+    if (!data) {
+      res.status(200).send({ isLike: false });
+    } else {
+      res.status(200).send({ isLike: true });
+    }
+  } catch (error) {
+    res.status(500).send({ error, mess: "Thất bại" });
+  }
+};
+const getCardIdLike = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = req.user.id;
+    const data = await LikeCard.findOne({
+      where: {
+        idUserLike: user,
+        idCardLike: id,
+      },
+    });
+
+    if (!data) {
+      const getUser = await User.findOne({
+        where: {
+          id: user,
+        },
+      });
+      const create = await LikeCard.create({
+        idUserLike: user,
+        idCardLike: id,
+        nameUserComment: getUser.firstName + " " + getUser.lastName,
+      });
+      const datas = await LikeCard.findAll({
+        where: {
+          idCardLike: id,
+        },
+      });
+      if (create)
+        res.status(200).send({ datas, mess: "Thành công", isLike: true });
+    } else {
+      LikeCard.destroy({
+        where: { id: data.id },
+      })
+        .then((num) => {
+          if (num == 1) {
+            res.send({
+              message: "Tutorial was deleted successfully!",
+              isLike: false,
+            });
+          } else {
+            res.send({
+              message: `Cannot delete Tutorial with id=${data.id}. Maybe Tutorial was not found!`,
+            });
+          }
+        })
+        .catch((err) => {
+          res.status(500).send({
+            message: "Could not delete Tutorial with id=" + data.id,
+          });
+        });
+    }
+  } catch (error) {
+    res.status(500).send({ error, mess: "Thất bại" });
+  }
+};
+const getCardIdComment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = req.user.id;
+
+    const { content } = req.body;
+    const getUser = await User.findOne({
+      where: {
+        id: user,
+      },
+    });
+    const create = await CommentCard.create({
+      idUserComment: user,
+      idCardComment: id,
+      content,
+      nameUserComment: getUser.firstName + " " + getUser.lastName,
+    });
+
+    if (create) {
+      const datas = await CommentCard.findAll({
+        where: {
+          idCardComment: id,
+        },
+      });
+      res.status(200).send({ datas, mess: "Thành công" });
+    }
+  } catch (error) {
+    res.status(500).send({ error, mess: "Thất bại" });
+  }
+};
+const getCardIdCommentDelete = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { idComment } = req.body;
+    CommentCard.destroy({
+      where: { id },
+    })
+      .then((num) => {
+        if (num == 1) {
+          res.status(200).send({ mess: "Thành công" });
+        } else {
+          res.send({
+            message: `Cannot delete Tutorial with id=${id}. Maybe Tutorial was not found!`,
+          });
+        }
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message: "Could not delete Tutorial with id=" + id,
+        });
+      });
+  } catch (error) {
+    res.status(500).send({ error, mess: "Thất bại" });
+  }
+};
+
 const getcard = async (req, res) => {
   const data = await createcard.findAll({
     where: {
       status: 1,
     },
   });
+  // console.log(data);
   if (data) res.status(200).send({ data, mess: "Thành công" });
 };
 const getcardId = async (req, res) => {
@@ -86,7 +224,17 @@ const getcardId = async (req, res) => {
       id,
     },
   });
-  if (data) res.status(200).send({ data, mess: "Thành công" });
+  const like = await LikeCard.findAll({
+    where: {
+      idCardLike: id,
+    },
+  });
+  const comment = await CommentCard.findAll({
+    where: {
+      idCardComment: id,
+    },
+  });
+  if (data) res.status(200).send({ data, like, comment, mess: "Thành công" });
 };
 module.exports = {
   postCard,
@@ -95,4 +243,8 @@ module.exports = {
   getcard,
   getcardId,
   putCard,
+  getCardIdLike,
+  getCardIdComment,
+  getCardIdCommentDelete,
+  getCardIdCheckLike,
 };

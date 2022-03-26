@@ -26,7 +26,7 @@ const register = async (req, res) => {
     res.status(201).send({ newUser, mess: "Thành công" });
   } catch (error) {
     console.log(error);
-    
+
     res.status(500).send({ error, mess: "Thất bại" });
   }
 };
@@ -76,7 +76,6 @@ const login = async (req, res) => {
       where: {
         email,
       },
-     
     });
 
     if (user) {
@@ -100,7 +99,14 @@ const login = async (req, res) => {
             expiresIn: 60000000000 * 60000000000,
           }
         );
-        res.status(200).send({ token, mess: "Thành công",firstName:user.firstName,lastName:user.lastName });
+        res
+          .status(200)
+          .send({
+            token,
+            mess: "Thành công",
+            firstName: user.firstName,
+            lastName: user.lastName,
+          });
       } else {
         res.status(500).send({ mess: "wrong pass" });
       }

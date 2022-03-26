@@ -1,33 +1,21 @@
 "use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("createcards", {
+    await queryInterface.createTable("LikeCards", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      idUser: {
+      idUserLike: {
         type: Sequelize.INTEGER,
       },
-      viewer: {
+      nameUserLike: {
+        type: Sequelize.STRING,
+      },
+      idCardLike: {
         type: Sequelize.INTEGER,
-      },
-      status: {
-        type: Sequelize.BOOLEAN,
-      },
-      name: {
-        type: Sequelize.STRING,
-      },
-      dataMT: {
-        type: Sequelize.TEXT,
-      },
-      dataMS: {
-        type: Sequelize.TEXT,
-      },
-      linkImage: {
-        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
@@ -40,6 +28,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("createcards");
+    await queryInterface.dropTable("LikeCards");
   },
 };

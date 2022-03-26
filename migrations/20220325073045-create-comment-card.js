@@ -1,33 +1,24 @@
 "use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("createcards", {
+    await queryInterface.createTable("CommentCards", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      idUser: {
+      idUserComment: {
         type: Sequelize.INTEGER,
       },
-      viewer: {
+      nameUserComment: {
+        type: Sequelize.STRING,
+      },
+      idCardComment: {
         type: Sequelize.INTEGER,
       },
-      status: {
-        type: Sequelize.BOOLEAN,
-      },
-      name: {
-        type: Sequelize.STRING,
-      },
-      dataMT: {
+      content: {
         type: Sequelize.TEXT,
-      },
-      dataMS: {
-        type: Sequelize.TEXT,
-      },
-      linkImage: {
-        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
@@ -40,6 +31,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("createcards");
+    await queryInterface.dropTable("CommentCards");
   },
 };
