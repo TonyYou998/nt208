@@ -2,7 +2,7 @@ const { createcard } = require("../models");
 const { LikeCard } = require("../models");
 const { CommentCard } = require("../models");
 const { User } = require("../models");
-const URL = "http://192.168.2.186:3000/";
+const URL = "https://nt118.herokuapp.com/";
 
 const postCard = async (req, res) => {
   try {

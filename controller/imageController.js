@@ -1,5 +1,5 @@
 const { Image } = require("../models");
-const URL = "http://192.168.2.186:3000/";
+const URL = "https://nt118.herokuapp.com/";
 
 const uploadImageDemo = async (req, res) => {
   const { file } = req;
