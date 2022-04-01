@@ -11,6 +11,9 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
+      amount:{
+        type:Sequelize.INTEGER
+      },
       image: {
         type: Sequelize.STRING(1024)
       },
@@ -34,6 +37,7 @@ module.exports = {
           key:"id",
         }
       },
+     
       description: {
         type: Sequelize.STRING
       },

@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const gravatar = require("gravatar-url");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
+
 const register = async (req, res) => {
   try {
     const { firstName, email, username, lastName, password } = req.body;
@@ -20,6 +21,7 @@ const register = async (req, res) => {
       password: hashPassword,
       avartar: avatarUrl,
     });
+  
 
     const url = createVerifyUrl(email);
     sendEmail(email, url);
