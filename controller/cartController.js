@@ -44,7 +44,7 @@ const addToCart=async (req,res)=>{
 }
 const getCart= async(req,res)=>{
     const {userId}=req.params;
-    console.log(userId);
+    console.log("userId:",userId);
     console.log(typeof(userId));
     const cart=await Cart.findOne({
         where:{
