@@ -42,6 +42,31 @@ const addToCart=async (req,res)=>{
 
 
 }
+const getCart= async(req,res)=>{
+    const {userId}=req.params;
+    console.log(userId);
+    console.log(typeof(userId));
+    const cart=await Cart.findOne({
+        where:{
+            idUser:userId,
+        }
+    });
+    try {
+        const products=await CartProduct.findAll({
+            where:{
+                idCart:cart.id,
+            }
+        });
+        res.status(200).send(products);
+
+    } catch (error) {
+        res.status(404).send({message:"empty"});
+        console.log(error);
+    }
+    
+
+
+}
 
 const productAmount=async (id,idCart)=>{
     
@@ -61,4 +86,5 @@ const productAmount=async (id,idCart)=>{
 }
 module.exports={
     addToCart,
+    getCart,
 }
