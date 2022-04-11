@@ -3,20 +3,35 @@ const addToCart=async (req,res)=>{
     const{userId,idProduct}=req.body;
 
     try {
-        const amount= checkProduct(idProduct);
-        console.log("amount:",amount);
+       
+     
         const cart=await Cart.findOne({
             where:{
                 idUser:userId,
             }
         });
+        let amount=await productAmount(idProduct,cart.id);
         
-        const newProduct=await CartProduct.create({
-            idCart:cart.id,
-            idProduct,
-            amount,
-    
-        });
+        if(amount===-1){
+            const newProduct=await CartProduct.create({
+                idCart:cart.id,
+                idProduct,
+                amount:1,
+        
+            });
+        }
+        else{
+            amount++;
+            const updateProduct=await CartProduct.update({
+                    amount,
+            },{
+                    where:{
+                        idProduct,
+                        idCart:cart.id,
+                    }
+            })
+        }
+       
         res.status(200).send({message:"add to cart success"});
     
     } catch (error) {
@@ -27,17 +42,20 @@ const addToCart=async (req,res)=>{
 
 
 }
-const checkProduct=async (id)=>{
+
+const productAmount=async (id,idCart)=>{
+    
     const product=await CartProduct.findOne({
         where:{
             idProduct:id,
+            idCart,
+        
         }
     });
-   if(product){
-      return product.amount++;
-       
-   }
-   return 1;
+  
+   if(product)
+    return product.amount
+   return -1;
 
 
 }
