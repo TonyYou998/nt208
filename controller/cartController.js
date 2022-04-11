@@ -1,17 +1,22 @@
-const{CartProduct} =require('../models');
+const{CartProduct,Cart} =require('../models');
 const addToCart=async (req,res)=>{
     const{userId,idProduct}=req.body;
 
     try {
     //    checkProduct(idProduct);
-
+        const cart=await Cart.findOne({
+            where:{
+                userId,
+            }
+        });
+        console.log(cart.id);
         const newProduct=await CartProduct.create({
-            idCart:userId,
+            idCart:cart.id,
             idProduct,
             amount:1,
     
         });
-        res.status(200).send(newProduct);
+        res.status(200).send({message:"add to cart success"});
     
     } catch (error) {
         console.log(error);
