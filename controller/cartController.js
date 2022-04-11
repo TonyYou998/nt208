@@ -4,7 +4,7 @@ const addToCart=async (req,res)=>{
 
     try {
         const amount= checkProduct(idProduct);
-        
+        console.log("amount:",amount);
         const cart=await Cart.findOne({
             where:{
                 idUser:userId,
