@@ -26,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       });
       this.hasMany(CartProduct,{
         foreignKey:"idProduct",
+        
       })
      
     }

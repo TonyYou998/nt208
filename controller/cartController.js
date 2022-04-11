@@ -1,4 +1,4 @@
-const{CartProduct,Cart} =require('../models');
+const{CartProduct,Cart,Product} =require('../models');
 const addToCart=async (req,res)=>{
     const{userId,idProduct}=req.body;
 
@@ -55,7 +55,15 @@ const getCart= async(req,res)=>{
         const products=await CartProduct.findAll({
             where:{
                 idCart:cart.id,
-            }
+            },
+            include:[
+                {
+                    model:Product,
+                    as:"product",
+                    attributes:["id","name","image"],
+
+                }
+            ]
         });
         res.status(200).send(products);
 
