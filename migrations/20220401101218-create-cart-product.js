@@ -8,6 +8,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      amount:{
+        type:Sequelize.INTEGER,
+      },
      
       createdAt: {
         allowNull: false,

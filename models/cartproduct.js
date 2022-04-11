@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   CartProduct.init({
+    amount:DataTypes.INTEGER,
     
   }, {
     sequelize,

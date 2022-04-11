@@ -1,5 +1,5 @@
 "use strict";
-const { User } = require("../models");
+const { User,Cart } = require("../models");
 const bcrypt = require("bcryptjs");
 const gravatar = require("gravatar-url");
 const jwt = require("jsonwebtoken");
@@ -21,11 +21,20 @@ const register = async (req, res) => {
       password: hashPassword,
       avartar: avatarUrl,
     });
+
+    try {
+      const newCart=await Cart.create({
+        idUser:newUser.id,
+      })
+    } catch (error) {
+      console.log(error);
+    }
+   
   
 
     const url = createVerifyUrl(email);
     sendEmail(email, url);
-    res.status(201).send({ newUser, mess: "Thành công" });
+    res.status(201).send({ newUser, mess: "Thành công",cartId:newCart.id });
   } catch (error) {
     console.log(error);
 
@@ -105,6 +114,7 @@ const login = async (req, res) => {
           .status(200)
           .send({
             token,
+            userId:user.id,
             mess: "Thành công",
             firstName: user.firstName,
             lastName: user.lastName,
