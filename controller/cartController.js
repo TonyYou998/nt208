@@ -4,9 +4,9 @@ const addToCart=async (req,res)=>{
 
     try {
     //    checkProduct(idProduct);
-        const cart=await Cart.findOne({
+        const cart=await CartProduct.findOne({
             where:{
-                userId,
+                idUser:userId,
             }
         });
         console.log(cart.id);
