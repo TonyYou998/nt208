@@ -60,7 +60,7 @@ const getCart= async(req,res)=>{
                 {
                     model:Product,
                     as:"product",
-                    attributes:["id","name","image"],
+                    attributes:["id","name","image","price"],
 
                 }
             ]

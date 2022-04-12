@@ -1,6 +1,6 @@
 const { Product, Tag, Category } = require("../models");
 const addProduct = async (req, res) => {
-  const { name, categoryId, idTypes, description, price } = req.body;
+  const { name, , idTypes, description, price } = req.body;
   const a = "https://nt118.herokuapp.com/cards/truoc.png";
   const b = "https://nt118.herokuapp.com/cards/sau.png";
   const c = "https://nt118.herokuapp.com/cards/truoc_1.png";
