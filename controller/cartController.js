@@ -42,6 +42,28 @@ const addToCart=async (req,res)=>{
 
 
 }
+
+const removeFromCart=async(req,res)=>{
+    const {idProduct,userId}=req.body;
+    const cart=await Cart.findOne({
+        where:{
+            idUser:userId,
+        }
+    });
+    try {
+        await CartProduct.destroy({
+            where:{
+                idProduct,
+                idCart:cart.id,
+            }
+        });
+        res.status(200).send({message:"delete successs"});
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({message:"delete failed"});
+    }
+
+}
 const getCart= async(req,res)=>{
     const {userId}=req.params;
     console.log("userId:",userId);
@@ -95,4 +117,5 @@ const productAmount=async (id,idCart)=>{
 module.exports={
     addToCart,
     getCart,
+    removeFromCart,
 }
