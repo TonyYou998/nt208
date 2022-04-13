@@ -104,6 +104,31 @@ const getCart= async(req,res)=>{
 
 
 }
+const adjustAmount=async (req,res)=>{
+    const {userId,idProduct,amount}=req.body;
+    try {
+        const idCart=await Cart.findOne({
+            where:{
+                idUser:userId,
+    
+            }
+        });
+        const newProductAmount=await CartProduct.update({
+                amount,
+        },
+        {
+            where:{
+                    idCart,
+                    idProduct,
+            }
+        });
+        res.status(200).send({message:"success"})
+    } catch (error) {
+        console.log(error);
+    }
+   
+
+}
 
 const productAmount=async (id,idCart)=>{
     
@@ -125,4 +150,5 @@ module.exports={
     addToCart,
     getCart,
     removeFromCart,
+    adjustAmount,
 }
