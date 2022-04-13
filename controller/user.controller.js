@@ -34,7 +34,7 @@ const register = async (req, res) => {
 
     const url = createVerifyUrl(email);
     sendEmail(email, url);
-    res.status(201).send({ newUser, mess: "Thành công",cartId:newCart.id });
+    res.status(201).send({ newUser, mess: "Thành công" });
   } catch (error) {
     console.log(error);
 
