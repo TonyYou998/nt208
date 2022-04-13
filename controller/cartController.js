@@ -66,8 +66,7 @@ const removeFromCart=async(req,res)=>{
 }
 const getCart= async(req,res)=>{
     const {userId}=req.params;
-    console.log("userId:",userId);
-    console.log(typeof(userId));
+  
     const cart=await Cart.findOne({
         where:{
             idUser:userId,
@@ -82,7 +81,15 @@ const getCart= async(req,res)=>{
                 {
                     model:Product,
                     as:"product",
-                    attributes:["id","name","image","price"],
+                    attributes: [
+                        "id",
+                        "name",
+                        "price",
+                        "image",
+                        "imageSau",
+                        "description",
+                        "rate",
+                      ],
 
                 }
             ]
