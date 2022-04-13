@@ -105,14 +105,9 @@ const getCart= async(req,res)=>{
 
 }
 const adjustAmount=async (req,res)=>{
-    const {userId,idProduct,amount}=req.body;
+    const {idCart,idProduct,amount}=req.body;
     try {
-        const idCart=await Cart.findOne({
-            where:{
-                idUser:userId,
-    
-            }
-        });
+       
         const newProductAmount=await CartProduct.update({
                 amount,
         },
