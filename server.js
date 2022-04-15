@@ -43,8 +43,12 @@ io.on("connection",(socket)=>{
 
 
 let port= process.env.PORT;
+let chat_port=process.env.PORT;
 if(port==null||port==""){
   port=3000;
+}
+if(chat_port==null|| chat_port==""){
+  chat_port=3001;
 }
 app.listen(port, async () => {
   console.log("server is running on port 3000");
@@ -59,6 +63,6 @@ app.listen(port, async () => {
     console.log(error);
   }
 });
-server_chat.listen(3001,()=>{
+server_chat.listen(chat_port,()=>{
   console.log("chat server is running on port 3001");
 });
