@@ -2,14 +2,14 @@ const express = require("express");
 const { rootRouter } = require("./routers/rootRouter");
 const { sequelize } = require("./models");
 const app = express();
-const app_chat=express();
+// const app_chat=express();
 const path = require("path");
 const swaggerUI = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
 const http=require('http');
-const server_chat=http.createServer(app_chat);
+const server=http.createServer(app);
 const socketio=require('socket.io');
-const io=socketio(server_chat);
+const io=socketio(server);
 const publicPathDirectory = path.join(__dirname, "./public");
 
 const swaggerOptions = {
@@ -43,14 +43,12 @@ io.on("connection",(socket)=>{
 
 
 let port= process.env.PORT;
-let chat_port=3001;
+
 if(port==null||port==""){
   port=3000;
 }
-if(chat_port==null|| chat_port==""){
-  chat_port=3001;
-}
-app.listen(port, async () => {
+
+server.listen(port, async () => {
   console.log(`server is running on port ${port}`);
 
 
@@ -62,7 +60,4 @@ app.listen(port, async () => {
     console.log("can't connect to dbs");
     console.log(error);
   }
-});
-server_chat.listen(chat_port,()=>{
-  console.log(`chat server is running on port ${chat_port}`);
 });
