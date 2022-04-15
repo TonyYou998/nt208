@@ -43,7 +43,7 @@ io.on("connection",(socket)=>{
 
 
 let port= process.env.PORT;
-let chat_port=process.env.PORT;
+let chat_port=3001;
 if(port==null||port==""){
   port=3000;
 }
