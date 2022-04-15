@@ -51,7 +51,7 @@ if(chat_port==null|| chat_port==""){
   chat_port=3001;
 }
 app.listen(port, async () => {
-  console.log("server is running on port 3000");
+  console.log(`server is running on port ${port}`);
 
 
 
@@ -64,5 +64,5 @@ app.listen(port, async () => {
   }
 });
 server_chat.listen(chat_port,()=>{
-  console.log("chat server is running on port 3001");
+  console.log(`chat server is running on port ${chat_port}`);
 });
