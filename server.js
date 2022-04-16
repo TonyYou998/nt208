@@ -37,10 +37,7 @@ app.use("/swagger", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 app.use("/api/v1", rootRouter);
 
-io.on("connection",(socket)=>{
-  console.log("co khach den :))");
 
-})
 
 
 let port= process.env.PORT;
@@ -49,7 +46,7 @@ if(port==null||port==""){
   port=3000;
 }
 
-server.listen(port, async () => {
+server.listen(port, "0.0.0.0",async () => {
   console.log(`server is running on port ${port}`);
 
 
@@ -62,3 +59,7 @@ server.listen(port, async () => {
     console.log(error);
   }
 });
+io.on("connection",(socket)=>{
+  console.log("co khach den :))  ");
+
+})
