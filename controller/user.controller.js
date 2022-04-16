@@ -118,6 +118,8 @@ const login = async (req, res) => {
             mess: "Thành công",
             firstName: user.firstName,
             lastName: user.lastName,
+            userName:user.username,
+
           });
       } else {
         res.status(500).send({ mess: "wrong pass" });

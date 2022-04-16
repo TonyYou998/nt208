@@ -48,7 +48,7 @@ if(port==null||port==""){
 
 server.listen(port, "0.0.0.0",async () => {
   console.log(`server is running on port ${port}`);
-
+  
 
 
   try {
@@ -60,6 +60,11 @@ server.listen(port, "0.0.0.0",async () => {
   }
 });
 io.on("connection",(socket)=>{
-  console.log("co khach den :))  ");
+  console.log("co khach den :))");
+  socket.on("client_send_username",(username)=>{
+    console.log(`username is: ${username}`);
+
+
+  })
 
 })
