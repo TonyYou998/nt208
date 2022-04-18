@@ -20,7 +20,8 @@ const createRoom=async (req,res)=>{
 }
 const getAllUserContact= async(req,res)=>{
     const {id}=req.params;
-    console.log(req.params);
+    console.log(`day la id=${id}`);
+
     const listContact=await Contact.findAll({
         where:{
             user1Id:id,
