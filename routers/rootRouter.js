@@ -17,6 +17,7 @@ const { userRouter } = require("./userRouter");
 const { createcardRouter } = require("./createcard");
 const { createOrderCreateCardRouter } = require("./orderCreaCard");
 const { cartRouter } = require("./cartRouter");
+const { messageRouter } = require("./messageRouter");
 
 const rootRouter = express.Router();
 
@@ -31,6 +32,7 @@ rootRouter.use("/image",imageRouter);
 rootRouter.use("/createcard", createcardRouter);
 rootRouter.use("/ordercreateCard", createOrderCreateCardRouter);
 rootRouter.use("/cart",cartRouter);
+rootRouter.use("/message",messageRouter);
 
 module.exports = {
   rootRouter,

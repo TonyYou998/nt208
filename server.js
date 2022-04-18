@@ -63,7 +63,14 @@ io.on("connection",(socket)=>{
   console.log("co khach den :))");
   socket.on("client_send_username",(username)=>{
     console.log(`username is: ${username}`);
+    socket.emit("send hello to new client");
 
+  
+
+
+  });
+  socket.on("join room",({username,roomId})=>{
+    socket.join(roomId);
 
   })
 
