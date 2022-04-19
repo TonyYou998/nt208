@@ -18,9 +18,11 @@ module.exports = (sequelize, DataTypes) => {
       });
       this.hasMany(Contact,{
         foreignKey:"user1Id",
+       
       });
       this.hasMany(Contact,{
         foreignKey:"user2Id",
+       
       });
       this.hasMany(Message,{
         foreignKey:"senderId",

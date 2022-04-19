@@ -10,6 +10,7 @@ const http=require('http');
 // https = require('https');
 const server=http.createServer(app);
 const socketio=require('socket.io');
+const { join } = require("path");
 const io=socketio(server);
 const publicPathDirectory = path.join(__dirname, "./public");
 
@@ -61,17 +62,25 @@ server.listen(port, "0.0.0.0",async () => {
 });
 io.on("connection",(socket)=>{
   console.log("co khach den :))");
-  socket.on("client_send_username",(username)=>{
-    console.log(`username is: ${username}`);
+  socket.on("join_room",(roomId)=>{
+    console.log("client join room");
+    console.log(roomId);
     socket.emit("send hello to new client");
-
+    socket.join(roomId);
   
-
+    socket.on("send_message_to_server",(username,message)=>{
+      console.log(username);
+      console.log(message);
+      io.to(roomId).emit("send_message_to_client",{
+        message,
+      
+      username,
+    });  
+  
+    });
 
   });
-  socket.on("join room",({username,roomId})=>{
-    socket.join(roomId);
-
-  })
+ 
+  
 
 })

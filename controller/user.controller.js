@@ -63,13 +63,13 @@ const sendEmail = async (email, url) => {
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
-      user: "tinpetofficial@outlook.com", // generated ethereal user
+      user: "spacez_official@outlook.com", // generated ethereal user
       pass: "39272762Bell", // generated ethereal password
     },
   });
   // console.log(url);
   let info = await transporter.sendMail({
-    from: '"Tinpet" <tinpetofficial@outlook.com>', // sender address
+    from: '"SpaceZ" <spacez_official@outlook.com>', // sender address
     to: email, // list of receivers
     subject: "Hello ✔", // Subject line
     // text: "url", // plain text body
