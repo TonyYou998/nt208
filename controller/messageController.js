@@ -11,6 +11,8 @@ const createRoom=async (req,res)=>{
     });
 
     if(newContact){
+        console.log("success");
+
         res.status(201).send("success");
     }
     else{
@@ -21,7 +23,7 @@ const createRoom=async (req,res)=>{
 }
 const getAllUserContact= async(req,res)=>{
     const {id}=req.params;
-    console.log(`day la id=${id}`);
+  
 
     const listContact=await Contact.findAll({
         where:{
@@ -44,7 +46,7 @@ const getAllUserContact= async(req,res)=>{
         ]
     }]
     });
-  console.log(listContact);
+ 
     if(listContact){
 
         res.status(200).send(listContact);
