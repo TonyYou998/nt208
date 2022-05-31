@@ -3,11 +3,16 @@ const {Contact}=require("../models");
 const createRoom=async (req,res)=>{
     const {user1Id,user2Id}=req.body;
 
-
+    if(contactIsExist){
+        res.status(204).send({message:"room is existed"});
+    }
+       
     const newContact=await Contact.create({
         user1Id,
         user2Id,
     });
+
+
 
     if(newContact){
         res.status(201).send(newContact);
@@ -15,6 +20,19 @@ const createRoom=async (req,res)=>{
     else{
         res.status(500).send({message:"cannot create contact"});
     }
+
+
+}
+const contactIsExist=(userId1,userId2)=>{
+    const contact=Contact.findAll({
+        where:{
+            userId1,
+            userId2,
+        }
+    });
+    if(contact)
+        return true;
+    return false;
 
 
 }
