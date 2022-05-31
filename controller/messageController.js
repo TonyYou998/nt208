@@ -3,8 +3,9 @@ const {Contact,User}=require("../models");
 const {Op}=require('sequelize');
 const createRoom=async (req,res)=>{
     const {user1Id,user2Id}=req.body;
+    const check=await contactIsExisted(user1Id,user2Id);
 
-    if(contactIsExisted(user2Id)){
+    if(check){
         res.status(200).send({message:"room is existed"});
         return;
     }
@@ -25,15 +26,19 @@ const createRoom=async (req,res)=>{
 
 
 }
-const contactIsExisted=(id2)=>{
-    const contact=Contact.findAll({
+const contactIsExisted=async (id1,id2)=>{
+    
+    const contact=await Contact.findAll({
         where:{
-            [Op.or]:[{user1Id:id2},{user2Id:id2}]
+            // [Op.or]:[{user1Id:id2},{user2Id:id2}],
+            [Op.or]:[{user1Id:id1,user2Id:id2},{user1Id:id2,user2Id:id1}]
+      
         },
     });
-    if(contact)
-        return true;
-    return false;
+    console.log(contact.length);
+    if(contact.length===0)
+        return false;
+    return true;
 
 }
 const getAllUserContact= async(req,res)=>{
