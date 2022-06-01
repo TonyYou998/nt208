@@ -4,9 +4,9 @@ const {Op}=require('sequelize');
 const createRoom=async (req,res)=>{
     const {user1Id,user2Id}=req.body;
     const check=await contactIsExisted(user1Id,user2Id);
-
-    if(check){
-        res.status(200).send({message:"room is existed"});
+   
+    if(check || user1Id===user2Id){
+        res.status(200).send({message:"cannot create contact"});
         return;
     }
 

@@ -87,6 +87,7 @@ const login = async (req, res) => {
       where: {
         email,
       },
+     
     });
 
     if (user) {
@@ -119,6 +120,7 @@ const login = async (req, res) => {
             firstName: user.firstName,
             lastName: user.lastName,
             userName:user.username,
+            
 
           });
       } else {
@@ -154,9 +156,28 @@ const activateAccount = async (req, res) => {
     res.status(500).send({ message: "Your token has been expired" });
   }
 };
+const getUserInformation=async (req,res)=>{
+  const id=req.params.id;
+ 
+  try {
+    const userInfo=await User.findOne({
+      where:{
+        id,
+      },
+      attributes:["firstName","lastName","userName","email","isOtp","avartar"]
+    });
+    if(userInfo){
+      res.status(200).send(userInfo);
+    }
+  } catch (error) {
+    res.status(404).send({message:"loi"});
+  }
+    
+}
 
 module.exports = {
   register,
   login,
   activateAccount,
+  getUserInformation,
 };
