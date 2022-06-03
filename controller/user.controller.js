@@ -186,7 +186,7 @@ const uploadUserAvatar=async (req,res)=>{
       where:{
         id:user.id,
       },
-      attributes:["avartar"]
+      attributes:["avartar","id"]
     });
     if(userFound){
       userFound.avartar=urlImage;
