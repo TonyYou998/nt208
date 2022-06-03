@@ -5,8 +5,9 @@ const authenticate=(req,res,next)=>{
         const decode=jwt.verify(token,"tanvuu998");
         if (decode){
             req.user=decode;
-            
-            next();
+            // console.log(req.user);
+          
+             next();
         }
         else{
             res.status(401).send({

@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const gravatar = require("gravatar-url");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
+const URL = "https://spacezuit.herokuapp.com/";
 
 const register = async (req, res) => {
   try {
@@ -174,10 +175,36 @@ const getUserInformation=async (req,res)=>{
   }
     
 }
+const uploadUserAvatar=async (req,res)=>{
+  const {file}=req;
+  const {user}=req;
+
+ 
+  try {
+    const urlImage=URL+`${file.path}`;
+    const userFound=await User.findOne({
+      where:{
+        email:user.email,
+      },
+      attributes:["firstName","lastName","userName","email","isOtp","avartar"]
+    });
+    if(userFound){
+      userFound.avartar=urlImage;
+      userFound.save();
+      res.status(201).send(userFound);
+    }
+  } catch (error) {
+    res.status(404).send({message:"not found"});
+  }
+  
+
+
+}
 
 module.exports = {
   register,
   login,
   activateAccount,
   getUserInformation,
+  uploadUserAvatar
 };
