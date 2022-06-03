@@ -184,9 +184,9 @@ const uploadUserAvatar=async (req,res)=>{
     const urlImage=URL+`${file.path}`;
     const userFound=await User.findOne({
       where:{
-        email:user.email,
+        id:user.id,
       },
-      attributes:["firstName","lastName","userName","email","isOtp","avartar"]
+      attributes:["avartar"]
     });
     if(userFound){
       userFound.avartar=urlImage;
