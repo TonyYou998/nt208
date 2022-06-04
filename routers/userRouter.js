@@ -12,7 +12,7 @@ userRouter.post("/register",checkEmptyRegister,checkExistEmail,register);
 userRouter.post("/login",checkEmptyLogin,login);
 userRouter.get("/confirmation/:token",activateAccount);
 userRouter.get("/:id",getUserInformation);
-userRouter.post("/upload-avatar",authenticate,uploadImage("avatar"),uploadUserAvatar);
+userRouter.post("/upload-avatar",uploadImage("avatar"),uploadUserAvatar);
 
 module.exports={
     userRouter,
