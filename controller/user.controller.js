@@ -188,6 +188,7 @@ const uploadUserAvatar=async (req,res)=>{
       },
       attributes:["avartar","id"]
     });
+
     if(userFound){
       userFound.avartar=urlImage;
       userFound.save();
@@ -200,11 +201,38 @@ const uploadUserAvatar=async (req,res)=>{
 
 
 }
+const changeUserInformation=async (req,res)=>{
+  const {email,username,firstName,lastName}=req.body;
+  const {user}=req;
+  try {
+    const existUser=await User.findOne({
+      where:{
+          id:user.id,
+  
+      },
+      attributes:["id","email","username","firstName","lastName"]
+    });
+    existUser.email=email;
+    existUser.username=username;
+    existUser.firstName=firstName;
+    existUser.lastName=lastName;
+    existUser.save();
+    res.status(201).send({message:"change success"});
+  } catch (error) {
+      res.status(404).send({message:error});
+  }
+  
+
+  
+
+
+}
 
 module.exports = {
   register,
   login,
   activateAccount,
   getUserInformation,
-  uploadUserAvatar
+  uploadUserAvatar,
+  changeUserInformation
 };
