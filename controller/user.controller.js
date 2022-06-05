@@ -93,6 +93,10 @@ const login = async (req, res) => {
 
     if (user) {
       const isAuth = bcrypt.compareSync(password, user.password);
+      if(user.emailVerified!==true){
+        return res.status(500).send({message:"email not verified"});
+
+      }
 
       if (isAuth) {
         const token = jwt.sign(
