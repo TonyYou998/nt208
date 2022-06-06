@@ -1,4 +1,31 @@
-const { Product, Tag, Category } = require("../models");
+const { Product, Tag, Category,User } = require("../models");
+const updateProductImage=async (req,res)=>{
+  const {productId}=req.body;
+  
+  console.log(productId);
+  const {file}=req;
+  const URL = "https://spacezuit.herokuapp.com/";
+  try {
+    const urlImage=URL+`${file.path}`;
+    const productFound=await Product.findOne({
+      where:{
+        id:productId,
+      }
+    });
+    console.log(productFound);
+    if(productFound){
+      productFound.image=urlImage;
+      productFound.save();
+      res.status(201).send({message:"success"});
+    }
+  
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({message:"loi"});
+  }
+ 
+
+}
 const addProduct = async (req, res) => {
   const { name, categoryId, idTypes, description, price } = req.body;
   const a = "https://nt118.herokuapp.com/cards/truoc.png";
@@ -96,4 +123,5 @@ module.exports = {
   addProduct,
   getAllProducts,
   getDetailProductById,
+  updateProductImage,
 };
