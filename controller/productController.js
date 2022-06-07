@@ -4,7 +4,7 @@ const updateProductImage=async (req,res)=>{
   
   console.log(productId);
   const {file}=req;
-  const URL = "http://localhost:3000/";
+  const URL = "  https://spacezuit.herokuapp.com/";
   try {
     const urlImage=URL+`${file.path}`;
     const productFound=await Product.findOne({
