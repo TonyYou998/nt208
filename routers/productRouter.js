@@ -7,7 +7,7 @@ const productRouter=express.Router();
 productRouter.post("/",authenticate,authorize(["Client"]),addProduct);
 productRouter.get("/",getAllProducts);
 productRouter.get("/:id",getDetailProductById);
-productRouter.post("/update-image",uploadImage("avatar"),updateProductImage);
+productRouter.post("/update-image",uploadImage("product"),updateProductImage);
 module.exports={
     productRouter,
 }
