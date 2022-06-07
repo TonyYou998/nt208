@@ -55,6 +55,7 @@ const getAllUserContact= async(req,res)=>{
             attributes:[
                 "id",
                 "username",
+                "avartar",
             ]
         },
     {
@@ -63,6 +64,7 @@ const getAllUserContact= async(req,res)=>{
         attributes:[
             "id",
             "username",
+            "avartar"
         ]
     }]
     });
