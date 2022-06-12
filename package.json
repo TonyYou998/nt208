@@ -12,14 +12,15 @@
     "express": "^4.17.2",
     "gravatar-url": "3.1.0",
     "jsonwebtoken": "^8.5.1",
+    "mkdirp": "^1.0.4",
+    "multer": "^1.4.4",
     "mysql2": "^2.3.3",
     "nodemailer": "^6.7.2",
     "sequelize": "^6.13.0",
+    "socket.io": "^4.4.1",
     "swagger-jsdoc": "^6.1.0",
     "swagger-ui-express": "^4.3.0",
-    "mkdirp": "^1.0.4",
-    "multer": "^1.4.4",
-    "socket.io": "^4.4.1"
+    "twilio": "^3.77.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.15",

@@ -47,6 +47,11 @@ module.exports = {
         allowNull: false,
         defaultValue: "Client",
       },
+      phone:{
+        type:Sequelize.STRING,
+        allowNull:true,
+
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
