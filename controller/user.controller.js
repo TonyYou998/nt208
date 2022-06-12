@@ -8,7 +8,7 @@ const URL = "https://spacezuit.herokuapp.com/";
 
 const register = async (req, res) => {
   try {
-    const { firstName, email, username, lastName, password } = req.body;
+    const { firstName, email, username, lastName, password,phone } = req.body;
 
     const salt = bcrypt.genSaltSync(10);
     const hashPassword = bcrypt.hashSync(password, salt);
@@ -21,6 +21,7 @@ const register = async (req, res) => {
       username,
       password: hashPassword,
       avartar: avatarUrl,
+      phone,
     });
 
     try {
@@ -110,6 +111,7 @@ const login = async (req, res) => {
             emailVerified: user.emailVerified,
             isOtp: user.isOtp,
             avartar: user.avartar,
+            phone:user.phone,
           },
           "tanvuu998",
           {
@@ -231,6 +233,8 @@ const changeUserInformation=async (req,res)=>{
 
 
 }
+
+
 
 module.exports = {
   register,
