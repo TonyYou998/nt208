@@ -5,6 +5,8 @@ const gravatar = require("gravatar-url");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const URL = "https://spacezuit.herokuapp.com/";
+const config=require("../config/config.json");
+const client=require("twilio")(config.sms.accountSID,config.sms.authToken);
 
 const register = async (req, res) => {
   try {
@@ -85,12 +87,14 @@ const sendEmail = async (email, url) => {
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
+    
     const user = await User.findOne({
       where: {
         email,
       },
      
     });
+   
 
     if (user) {
       const isAuth = bcrypt.compareSync(password, user.password);
@@ -98,8 +102,9 @@ const login = async (req, res) => {
         return res.status(500).send({message:"email not verified"});
 
       }
+     
 
-      if (isAuth) {
+      if (isAuth && user.isOtp===false) {
         const token = jwt.sign(
           {
             id: user.id,
@@ -130,7 +135,31 @@ const login = async (req, res) => {
             
 
           });
-      } else {
+      }
+      else if(isAuth && user.isOtp===true){
+        
+        client
+        .verify
+        .services(config.sms.serviceID)
+        .verifications
+        .create({
+          to:`+84${user.phone.slice(1,user.phone.length)}`,
+          channel:"sms",
+        })
+        .then(data=>{
+        
+          res.status(200).send({
+            mess:"Verification is sent!!",
+            phone:user.phone,
+            data
+          });
+        })
+        .catch((err)=>{
+          res.status(500).send(err);
+
+        })
+      }
+       else {
         res.status(500).send({ mess: "wrong pass" });
       }
     } else {
@@ -171,7 +200,7 @@ const getUserInformation=async (req,res)=>{
       where:{
         id,
       },
-      attributes:["firstName","lastName","userName","email","isOtp","avartar"]
+      attributes:["firstName","lastName","userName","email","isOtp","avartar","phone"]
     });
     if(userInfo){
       res.status(200).send(userInfo);
@@ -208,7 +237,7 @@ const uploadUserAvatar=async (req,res)=>{
 
 }
 const changeUserInformation=async (req,res)=>{
-  const {email,username,firstName,lastName}=req.body;
+  const {email,username,firstName,lastName,phone}=req.body;
   const {user}=req;
   try {
     const existUser=await User.findOne({
@@ -216,12 +245,13 @@ const changeUserInformation=async (req,res)=>{
           id:user.id,
   
       },
-      attributes:["id","email","username","firstName","lastName"]
+      attributes:["id","email","username","firstName","lastName","phone"]
     });
     existUser.email=email;
     existUser.username=username;
     existUser.firstName=firstName;
     existUser.lastName=lastName;
+    existUser.phone=phone;
     existUser.save();
     res.status(201).send({message:"change success"});
   } catch (error) {
@@ -233,6 +263,24 @@ const changeUserInformation=async (req,res)=>{
 
 
 }
+const active2FA=async (req,res)=>{
+  const {user}=req;
+  try {
+    const existUser=await User.findOne({
+      where:{
+        id:user.id,
+      }
+    });
+    existUser.isOtp!==true?existUser.isOtp=true:existUser.isOtp=false;
+    existUser.save();
+    res.status(200).send(existUser);
+
+
+  } catch (error) {
+    console.log(error);
+  }
+
+}
 
 
 
@@ -242,5 +290,6 @@ module.exports = {
   activateAccount,
   getUserInformation,
   uploadUserAvatar,
-  changeUserInformation
+  changeUserInformation,
+  active2FA
 };
