@@ -132,6 +132,7 @@ const login = async (req, res) => {
             firstName: user.firstName,
             lastName: user.lastName,
             userName:user.username,
+            email:user.email,
             
 
           });
