@@ -151,6 +151,7 @@ const login = async (req, res) => {
           res.status(200).send({
             mess:"Verification is sent!!",
             phone:user.phone,
+            email:user.email,
             data
           });
         })
@@ -281,6 +282,56 @@ const active2FA=async (req,res)=>{
   }
 
 }
+const verifyCode=async (req,res)=>{
+  const{otpCode,phone,email}=req.body;
+  client
+  .verify
+  .services(config.sms.serviceID)
+  .verificationChecks
+  .create({
+    to:`+84${phone.slice(1,phone.length)}`,
+    code:otpCode,
+  })
+  .then(async (data)=>{
+    const user=await User.findOne({
+      where:{
+        email,
+      }
+    });
+    
+    const token = jwt.sign(
+      {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        username: user.username,
+        emailVerified: user.emailVerified,
+        isOtp: user.isOtp,
+        avartar: user.avartar,
+        phone:user.phone,
+      },
+      "tanvuu998",
+      {
+        expiresIn: 60000000000 * 60000000000,
+      }
+    );
+    res.status(200).send({
+      token,
+      userId:user.id,
+      mess: "Thành công",
+      firstName: user.firstName,
+      lastName: user.lastName,
+      userName:user.username,
+    });
+
+  })
+  .catch(err=>{
+    res.status(500).send(err);
+  });
+
+}
 
 
 
@@ -291,5 +342,6 @@ module.exports = {
   getUserInformation,
   uploadUserAvatar,
   changeUserInformation,
-  active2FA
+  active2FA,
+  verifyCode
 };
