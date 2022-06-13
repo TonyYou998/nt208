@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       });
       this.belongsTo(User,{
         foreignKey:"idUser",
+        as:"user"
       })
     }
   }

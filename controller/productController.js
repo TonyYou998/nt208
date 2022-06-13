@@ -1,4 +1,5 @@
-const { Product, Tag, Category,User } = require("../models");
+const { Product, Tag, Category,User,Comment } = require("../models");
+const comment = require("../models/comment");
 const updateProductImage=async (req,res)=>{
   const {productId}=req.body;
   
@@ -119,9 +120,60 @@ const getDetailProductById = async (req, res) => {
   }
 };
 
+const addComment=async (req,res)=>{
+  const {content,idProduct,idUser}=req.body;
+  if(content!==""){
+    const comment=await Comment.create({
+      content,
+      idProduct,
+      idUser,
+    });
+    res.status(201).send(comment);
+  }
+  else{
+      return;
+  }
+
+
+
+}
+const getCommentByProductId=async (req,res)=>{
+
+    const {idProduct}=req.params;
+    try {
+      const comments=await Comment.findAll({
+        where:{
+            idProduct,
+        },
+        attributes:["content"],
+        include:[
+          {
+            model:User,
+            as:"user",
+            attributes:["id","username","email","avartar"],
+          },
+         
+        ]
+      });
+      
+    if(comments){
+      res.status(200).send(comments);
+
+
+    }
+    } catch (error) {
+      console.log(error);
+    }
+  
+
+  
+}
+
 module.exports = {
   addProduct,
   getAllProducts,
   getDetailProductById,
   updateProductImage,
+  addComment,
+  getCommentByProductId
 };
