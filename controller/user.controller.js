@@ -1,5 +1,5 @@
 "use strict";
-const { User,Cart } = require("../models");
+const { User, Cart } = require("../models");
 const bcrypt = require("bcryptjs");
 const gravatar = require("gravatar-url");
 const jwt = require("jsonwebtoken");
@@ -23,14 +23,12 @@ const register = async (req, res) => {
     });
 
     try {
-      const newCart=await Cart.create({
-        idUser:newUser.id,
-      })
+      const newCart = await Cart.create({
+        idUser: newUser.id,
+      });
     } catch (error) {
       console.log(error);
     }
-   
-  
 
     const url = createVerifyUrl(email);
     sendEmail(email, url);
@@ -110,17 +108,14 @@ const login = async (req, res) => {
             expiresIn: 60000000000 * 60000000000,
           }
         );
-        res
-          .status(200)
-          .send({
-            token,
-            userId:user.id,
-            mess: "Thành công",
-            firstName: user.firstName,
-            lastName: user.lastName,
-            userName:user.username,
-
-          });
+        res.status(200).send({
+          token,
+          userId: user.id,
+          mess: "Thành công",
+          firstName: user.firstName,
+          lastName: user.lastName,
+          userName: user.username,
+        });
       } else {
         res.status(500).send({ mess: "wrong pass" });
       }
@@ -154,9 +149,21 @@ const activateAccount = async (req, res) => {
     res.status(500).send({ message: "Your token has been expired" });
   }
 };
+const isOtpCheck = async (req, res) => {
+  try {
+    const user = await User.findOne();
+    let temp = 0;
+    if (user.isOtp == 0) temp = 1;
+    await user.update({ isOtp: temp });
+    res.status(200).send({ user, mess: "Thành công" });
+  } catch (error) {
+    res.status(500).send({ error, mess: "Thất bại" });
+  }
+};
 
 module.exports = {
   register,
   login,
   activateAccount,
+  isOtpCheck,
 };
